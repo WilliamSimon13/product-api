@@ -9,11 +9,11 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads')); // Để phục vụ hình ảnh
-app.use('/api/products', productRoutes);
-app.use(express.static('views'));
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
-});
+app.use(express.static(path.join(__dirname, 'views'))); // Static folder cho `index.html`
+
+// Sử dụng routes với đường dẫn '/'
+app.use('/', productRoutes);
+
 // Kết nối đến MongoDB
 mongoose.connect('mongodb://localhost:27017/product_MVC', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB Connected'))

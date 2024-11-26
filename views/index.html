@@ -9,18 +9,18 @@
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Product Manager</h1>
-        <form id="product-form" enctype="multipart/form-data">
+        <form id="product-form" method="POST" action="/" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" required>
+                <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea class="form-control" id="description" required></textarea>
+                <textarea class="form-control" id="description" name="description" required></textarea>
             </div>
             <div class="form-group">
                 <label for="price">Price</label>
-                <input type="number" class="form-control" id="price" required>
+                <input type="number" class="form-control" id="price" name="price" required>
             </div>
             <div class="form-group">
                 <label for="image">Image</label>
@@ -28,6 +28,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Add Product</button>
         </form>
+        
 
         <div id="product-cards" class="mt-4"></div>
     </div>
@@ -37,7 +38,8 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(form);
-            const response = await fetch('http://localhost:8000/api/products', {
+            // Đổi endpoint từ '/api/products' thành '/'
+            const response = await fetch('/', {
                 method: 'POST',
                 body: formData
             });
@@ -45,9 +47,10 @@
                 loadProducts(); // Tải lại danh sách sản phẩm
             }
         });
-
+    
         async function loadProducts() {
-            const response = await fetch('http://localhost:8000/api/products');
+            // Sử dụng '/products' để lấy danh sách sản phẩm
+            const response = await fetch('/products');
             const products = await response.json();
             const productCards = document.getElementById('product-cards');
             productCards.innerHTML = '';
@@ -65,8 +68,9 @@
                 productCards.innerHTML += card;
             });
         }
-
+    
         loadProducts(); // Tải sản phẩm ngay khi tải trang
     </script>
+    
 </body>
 </html>

@@ -12,7 +12,9 @@ exports.getAllProducts = async (req, res) => {
 
 // Thêm sản phẩm mới
 exports.createProduct = async (req, res) => {
-    console.log(req.file);
+    // Kiểm tra log dữ liệu nhận được
+    console.log('Body:', req.body);
+    console.log('File:', req.file);
 
     const product = new Product({
         name: req.body.name,
@@ -25,6 +27,7 @@ exports.createProduct = async (req, res) => {
         const savedProduct = await product.save();
         res.status(201).json(savedProduct);
     } catch (error) {
+        console.error(error);
         res.status(400).json({ message: error.message });
     }
 };
