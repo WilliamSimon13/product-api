@@ -8,11 +8,14 @@ const path = require('path');
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/views', express.static('views')); // Để phục vụ hình ảnh
+app.use('/uploads', express.static('uploads')); // Để phục vụ hình ảnh
 app.use('/api/products', productRoutes);
-
+app.use(express.static('views'));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
 // Kết nối đến MongoDB
-mongoose.connect('mongodb://localhost:27017/product_MVC') // Loại bỏ useUnifiedTopology
+mongoose.connect('mongodb://localhost:27017/product_MVC', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.error(err));
 
